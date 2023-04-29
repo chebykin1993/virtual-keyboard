@@ -7,10 +7,8 @@ container.append(keyboard)
 container.className = 'content'
 inputTag.className = 'content__input'
 keyboard.className = 'content__keyboard'
-const first = '`0123456789-='
-const second = `qwertyuiop[]\\`
-const third = "asdfghjkl;'"
-const fourth = 'zxcvbnm,./'
+
+const symbols = ['`0123456789-=', `qwertyuiop[]\\`, "asdfghjkl;'", 'zxcvbnm,./']
 
 for (let i = 0; i < 5; i++) {
     let temp = document.createElement('div')
@@ -55,26 +53,14 @@ keyboard.children[3].lastChild.innerHTML = 'Shift'
 keyboard.children[4].lastChild.innerHTML = 'Ctrl'
 keyboard.children[4].firstChild.innerHTML = 'Ctrl'
 
-let temp = keyboard.children[0].firstChild
-for (let l of first) {
+for (let i = 0; i < 4; i++) {
+    let temp = keyboard.children[i].firstChild
+    for (let l of symbols[i]) {
     temp.innerHTML = l
     temp = temp.nextSibling
+ }
 }
-temp = keyboard.children[1].firstChild.nextSibling
-for (let l of second) {
-    temp.innerHTML = l
-    temp = temp.nextSibling
-}
-temp = keyboard.children[2].firstChild.nextSibling
-for (let l of third) {
-    temp.innerHTML = l
-    temp = temp.nextSibling
-}
-temp = keyboard.children[3].firstChild.nextSibling
-for (let l of fourth) {
-    temp.innerHTML = l
-    temp = temp.nextSibling
-}
+
 keyboard.children[4].firstChild.nextSibling.innerHTML = 'Win'
 keyboard.children[4].firstChild.nextSibling.id = 'win'
 document.getElementById('space').previousSibling.innerHTML = 'Alt'
@@ -116,3 +102,4 @@ b.addEventListener('mouseleave', (event) => {
     event.target.classList.remove('elem-hover')
  })
   })
+

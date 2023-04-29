@@ -1,0 +1,68 @@
+body {
+    max-width: 100%;
+    height: 100%;
+}
+.content {
+    position: relative;
+    width: 70%;
+    height: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.content__input {
+    width: 98%;
+    height: 200px;
+    border-width: 0;
+    margin: auto;
+}
+.content__keyboard {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.content__keyboard div {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+.content__input {
+    border-style: solid;
+    border-radius: 3px;
+    border-width: 1px;
+}
+.content__keyboard div button {
+    width: 40px;
+    height: 40px;
+}
+#backspace {
+    width: 100px;
+}
+#tab {
+    width: 50px;
+}
+#caps-lock {
+    width: 100px;
+}
+#enter {
+    width: 90px;
+}
+#shift {
+    width: 95px
+}
+#space {
+    width: 350px;
+}
+.elem-hover {
+    animation-name: blink;
+    animation-duration: 1.5s;
+    background-color: blue;
+}
+@keyframes blink {
+    from {transform: rotate(0deg)}
+    to {transform: rotate(360deg);}
+}

@@ -68,16 +68,26 @@ for (let i = 0; i < 4; i++) {
       temp = temp.nextSibling
  }
 }
-
 document.getElementById('backspace').innerHTML = 'Backspace'
 document.getElementById('tab').innerHTML = 'Tab'
 document.getElementById('caps-lock').innerHTML = 'CapsLock'
 document.getElementById('enter').innerHTML = 'Enter'
 document.getElementById('shift').innerHTML = 'Shift'
 keyboard.children[1].lastChild.innerHTML = 'Del'
+keyboard.children[1].lastChild.id = 'del'
 keyboard.children[3].lastChild.innerHTML = 'Shift'
 keyboard.children[4].lastChild.innerHTML = 'Ctrl'
+keyboard.children[4].lastChild.id = 'ctrl'
+keyboard.children[3].lastChild.previousSibling.innerHTML =  "▲"
+keyboard.children[3].lastChild.previousSibling.id = 'arrow-up'
+keyboard.children[4].lastChild.previousSibling.innerHTML =  "►"
+keyboard.children[4].lastChild.previousSibling.id = 'arrow-right'
+keyboard.children[4].lastChild.previousSibling.previousSibling.previousSibling.innerHTML = "◄"
+keyboard.children[4].lastChild.previousSibling.previousSibling.previousSibling.id = 'arrow-left'
+keyboard.children[4].lastChild.previousSibling.previousSibling.innerHTML = "▼"
+keyboard.children[4].lastChild.previousSibling.previousSibling.id = 'arrow-down'
 keyboard.children[4].firstChild.innerHTML = 'Ctrl'
+keyboard.children[4].firstChild.id= 'ctrl'
 keyboard.children[4].firstChild.nextSibling.innerHTML = 'Win'
 keyboard.children[4].firstChild.nextSibling.id = 'win'
 document.getElementById('space').previousSibling.innerHTML = 'Alt'
@@ -86,8 +96,9 @@ document.getElementById('space').nextSibling.innerHTML = 'Alt'
 document.getElementById('space').nextSibling.id = 'alt'
 
 let buttons = Array.from(document.querySelectorAll('button'))
+let ids = Array.from(document.querySelectorAll('[id]'))
 
-function print(event) {
+function print(event = event.target.innerHTML) {
     if (event.key == 'Backspace') {
         inputTag.value = inputTag.value.slice(0, inputTag.value.length - 1)
     }
@@ -104,11 +115,19 @@ function print(event) {
     }
     else if (event.key == 'Enter') {inputTag.value += '\n'}
     else if (event.key == 'Shift') {
+        let temp = '~!@#$%^&*()_+{}|:"<>?'
+        let count = 0
         buttons.forEach((b) => {
-            if (letters.includes(b.innerHTML)) {b.innerHTML = b.innerHTML.toUpperCase()}
-            else {let temp = '~!@#$%^&*()_+{}|:"<>?'[0]}
-        })
-    }
+            if (!lettersUp.includes(b.innerHTML)) {
+            if (letters.includes(b.innerHTML)) {b.innerHTML = b.innerHTML.toUpperCase();}
+            else if (!ids.includes(b)) {
+                b.innerHTML = temp[count]
+                count++;
+                }
+              }
+            })
+        }
+    
     else if (event.key == 'Control') {
         buttDown.add(event.key)
     }
@@ -116,10 +135,15 @@ function print(event) {
             buttDown.add(event.key)
         }
     else if (keyboard.children[1].firstChild.nextSibling.innerHTML == 'й') {
+        
         buttons.forEach((b) => {
             if (event.key == b.className) {inputTag.value += b.innerHTML}
         })
     }
+    else if (event.key == 'ArrowUp') {inputTag.value += "▲"}
+    else if (event.key == 'ArrowDown') {inputTag.value += "▼"}
+    else if (event.key == 'ArrowLeft') {inputTag.value += "◄"}
+    else if (event.key == 'ArrowRight') {inputTag.value += "►"}
     else {
         inputTag.value += event.key
     }
@@ -165,9 +189,14 @@ document.addEventListener('keyup', (event) => {
         }
     })
     if (event.key == 'Shift') {
+        let temp = "`0123456789-=[]\\;',./"
+        count = 0
         buttons.forEach((b) => {
             if (lettersUp.includes(b.innerHTML)) {b.innerHTML = b.innerHTML.toLowerCase()}
-            else {let temp = '~!@#$%^&*()_+{}|:"<>?'[0]}
+            else if (!ids.includes(b)) {
+              b.innerHTML = temp[count]
+              count++
+            }
         })
     }
     lang()
@@ -175,8 +204,11 @@ document.addEventListener('keyup', (event) => {
 
   buttons.forEach((b) => {
    b.addEventListener('click', (event) => {
-   inputTag.value += event.target.innerHTML
-   event.target.classList.add('elem-hover')
+    if (ids.includes(event.target)) {inputTag.value += 0}
+    else {
+      inputTag.value += event.target.innerHTML
+    }
+    event.target.classList.add('elem-hover')  
 })
 b.addEventListener('mouseleave', (event) => {
     event.target.classList.remove('elem-hover')

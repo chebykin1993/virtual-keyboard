@@ -1,5 +1,7 @@
 body {
-    max-width: 100%;
+    font-family: Georgia, serif;
+    font-weight: 400;
+    width: auto;
     height: 100%;
 }
 .content {
@@ -10,25 +12,28 @@ body {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    align-items: center;
 }
+.header {margin: auto;}
 .content__input {
-    width: 98%;
+    width: 80%;
     height: 200px;
     border-width: 0;
-    margin: auto;
 }
 .content__keyboard {
     width: 100%;
-    height: 100%;
     display: flex;
     flex-direction: column;
     gap: 10px;
+    border-radius: 10px;
 }
 .content__keyboard div {
+    position: relative;
     height: 100%;
     display: flex;
     flex-direction: row;
     gap: 10px;
+    align-self: center;
 }
 .content__input {
     border-style: solid;
@@ -38,6 +43,11 @@ body {
 .content__keyboard div button {
     width: 40px;
     height: 40px;
+    border-radius: 5px;
+    font-family: Georgia;
+    font-weight: 700;
+    color: white;
+    background-color: rgb(8, 8, 8);
 }
 #backspace {
     width: 100px;
@@ -60,9 +70,14 @@ body {
 .elem-hover {
     animation-name: blink;
     animation-duration: 1.5s;
-    background-color: blue;
+    background-color: white;
 }
 @keyframes blink {
-    from {transform: rotate(0deg)}
+    from {transform: rotate(0deg);background-color: white;}
     to {transform: rotate(360deg);}
+}
+p {margin: auto;}
+.content__keyboard div button:hover {
+  background-color: white;
+  color: black;
 }

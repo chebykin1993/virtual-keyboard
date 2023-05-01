@@ -1,9 +1,19 @@
 let container = document.createElement('div')
 let inputTag = document.createElement('textarea')
 let keyboard = document.createElement('div')
+let header = document.createElement('h1')
+let p1 = document.createElement('p')
+let p2 = document.createElement('p')
+p1.innerHTML = "Клавиатура создана в операционной системе Windows"
+p2.innerHTML = "Для переключения языка комбинация: левыe ctrl + alt"
+header.className = "header"
+header.innerHTML = "RSS Virtual keyboard"
 document.body.append(container)
+container.append(header)
 container.append(inputTag)
 container.append(keyboard)
+container.append(p1)
+container.append(p2)
 container.className = 'content'
 inputTag.className = 'content__input'
 keyboard.className = 'content__keyboard'
@@ -172,3 +182,4 @@ b.addEventListener('mouseleave', (event) => {
     event.target.classList.remove('elem-hover')
  })
   })
+

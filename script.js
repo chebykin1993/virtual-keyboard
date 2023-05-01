@@ -18,11 +18,12 @@ container.className = 'content'
 inputTag.className = 'content__input'
 keyboard.className = 'content__keyboard'
 
-const symbols = ['`0123456789-=', `qwertyuiop[]\\`, "asdfghjkl;'", 'zxcvbnm,./']
+const symbols = ['`1234567890-=', `qwertyuiop[]\\`, "asdfghjkl;'", 'zxcvbnm,./']
 const russian = ["йцукенгшщзхъ", "фывапролджэ", "ячсмитьбю."]
 
 let letters = 'qwertyuiopasdfghjklzxcvbnm'
-let lettersRu = "йцукенгшщзхъфывапролджэячсмитьбю"
+let lettersRu = "ёйцукенгшщзхъфывапролджэячсмитьбю"
+let letRuUp = lettersRu.toUpperCase()
 let lettersUp = letters.toUpperCase()
 let buttDown = new Set()
 
@@ -98,10 +99,12 @@ document.getElementById('space').nextSibling.id = 'alt'
 let buttons = Array.from(document.querySelectorAll('button'))
 let ids = Array.from(document.querySelectorAll('[id]'))
 
-function print(event = event.target.innerHTML) {
+function print(event) {
+    if (event.type == 'click') {event.key = event.target.innerHTML}
     if (event.key == 'Backspace') {
         inputTag.value = inputTag.value.slice(0, inputTag.value.length - 1)
     }
+    else if (event.key == 'Space') { inputTag.value += ' '}
     else if (event.key == 'Tab') {inputTag.value += '    '}
     else if (event.key == 'CapsLock') {
         buttons.forEach((b) => {
@@ -117,6 +120,18 @@ function print(event = event.target.innerHTML) {
     else if (event.key == 'Shift') {
         let temp = '~!@#$%^&*()_+{}|:"<>?'
         let count = 0
+        if (keyboard.children[1].firstChild.nextSibling.innerHTML == 'й') {
+            buttons.forEach((b) => {
+                if (!letRuUp.includes(b.innerHTML)) {
+                if (lettersRu.includes(b.innerHTML)) {b.innerHTML = b.innerHTML.toUpperCase();}
+                else if (!ids.includes(b)) {
+                    b.innerHTML = temp[count]
+                    count++;
+                    }
+                  }
+                })
+            }
+        else {
         buttons.forEach((b) => {
             if (!lettersUp.includes(b.innerHTML)) {
             if (letters.includes(b.innerHTML)) {b.innerHTML = b.innerHTML.toUpperCase();}
@@ -127,7 +142,7 @@ function print(event = event.target.innerHTML) {
               }
             })
         }
-    
+    }
     else if (event.key == 'Control') {
         buttDown.add(event.key)
     }
@@ -135,9 +150,11 @@ function print(event = event.target.innerHTML) {
             buttDown.add(event.key)
         }
     else if (keyboard.children[1].firstChild.nextSibling.innerHTML == 'й') {
-        
         buttons.forEach((b) => {
-            if (event.key == b.className) {inputTag.value += b.innerHTML}
+            if (event.key == b.className) {
+                inputTag.value += b.innerHTML
+            }
+            else if (event.key == b.innerHTML) {inputTag.value += b.innerHTML}
         })
     }
     else if (event.key == 'ArrowUp') {inputTag.value += "▲"}
@@ -151,6 +168,7 @@ function print(event = event.target.innerHTML) {
         if (b.innerHTML == event.key) {
             b.classList.add('elem-hover')
         }
+        if (event.key == b.className) {b.classList.add('elem-hover')}
     })
   }
 
@@ -184,13 +202,23 @@ function lang() {
 document.addEventListener('keydown', print)
 document.addEventListener('keyup', (event) => {
     buttons.forEach((b) => {
-        if (b.innerHTML == event.key) {
-            b.classList.remove('elem-hover')
-        }
+        b.classList.remove('elem-hover')
     })
     if (event.key == 'Shift') {
-        let temp = "`0123456789-=[]\\;',./"
+        let temp = "`1234567890-=[]\\;',./"
         count = 0
+        if (keyboard.children[1].firstChild.nextSibling.innerHTML == 'й') {
+            buttons.forEach((b) => {
+                if (letRuUp.includes(b.innerHTML)) {
+                 b.innerHTML = b.innerHTML.toLowerCase()
+                }
+                else if (!ids.includes(b)) {
+                    b.innerHTML = temp[count]
+                    count++;
+                    }
+                })
+            }
+        else {
         buttons.forEach((b) => {
             if (lettersUp.includes(b.innerHTML)) {b.innerHTML = b.innerHTML.toLowerCase()}
             else if (!ids.includes(b)) {
@@ -198,13 +226,14 @@ document.addEventListener('keyup', (event) => {
               count++
             }
         })
+      }
     }
     lang()
   })
 
   buttons.forEach((b) => {
    b.addEventListener('click', (event) => {
-    if (ids.includes(event.target)) {inputTag.value += 0}
+    if (ids.includes(event.target)) {print(event)}
     else {
       inputTag.value += event.target.innerHTML
     }
@@ -214,4 +243,3 @@ b.addEventListener('mouseleave', (event) => {
     event.target.classList.remove('elem-hover')
  })
   })
-
